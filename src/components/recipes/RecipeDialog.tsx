@@ -6,7 +6,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { supabase } from "@/integrations/supabase/client";
 import { toast } from "@/hooks/use-toast";
-import { Loader2, Upload, X } from "lucide-react";
+import { Loader2, Upload, X, Share2 } from "lucide-react";
 
 interface Recipe {
   id?: string;
@@ -21,9 +21,10 @@ interface RecipeDialogProps {
   onOpenChange: (open: boolean) => void;
   recipe: Recipe | null;
   onSave: () => void;
+  onShare: (id: string, name: string) => void;
 }
 
-export const RecipeDialog = ({ open, onOpenChange, recipe, onSave }: RecipeDialogProps) => {
+export const RecipeDialog = ({ open, onOpenChange, recipe, onSave, onShare }: RecipeDialogProps) => {
   const [name, setName] = useState("");
   const [ingredients, setIngredients] = useState("");
   const [instructions, setInstructions] = useState("");
@@ -220,9 +221,21 @@ export const RecipeDialog = ({ open, onOpenChange, recipe, onSave }: RecipeDialo
         </div>
         <DialogFooter className="gap-2">
           {recipe?.id && (
-            <Button variant="destructive" onClick={handleDelete} disabled={loading}>
-              Delete
-            </Button>
+            <>
+              <Button 
+                variant="outline" 
+                onClick={() => {
+                  onShare(recipe.id!, recipe.name);
+                  onOpenChange(false);
+                }}
+              >
+                <Share2 className="w-4 h-4 mr-2" />
+                Share
+              </Button>
+              <Button variant="destructive" onClick={handleDelete} disabled={loading}>
+                Delete
+              </Button>
+            </>
           )}
           <Button variant="outline" onClick={() => onOpenChange(false)}>
             Cancel

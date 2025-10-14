@@ -4,7 +4,9 @@ import { supabase } from "@/integrations/supabase/client";
 import { Button } from "@/components/ui/button";
 import { RecipeCard } from "@/components/recipes/RecipeCard";
 import { RecipeDialog } from "@/components/recipes/RecipeDialog";
-import { Plus, LogOut, ChefHat } from "lucide-react";
+import { ShareDialog } from "@/components/recipes/ShareDialog";
+import { ThemeSettings } from "@/components/settings/ThemeSettings";
+import { Plus, LogOut, ChefHat, Settings } from "lucide-react";
 import { toast } from "@/hooks/use-toast";
 
 interface Recipe {
@@ -19,6 +21,10 @@ const Recipes = () => {
   const [recipes, setRecipes] = useState<Recipe[]>([]);
   const [selectedRecipe, setSelectedRecipe] = useState<Recipe | null>(null);
   const [dialogOpen, setDialogOpen] = useState(false);
+  const [shareDialogOpen, setShareDialogOpen] = useState(false);
+  const [shareRecipeId, setShareRecipeId] = useState<string>("");
+  const [shareRecipeName, setShareRecipeName] = useState<string>("");
+  const [themeSettingsOpen, setThemeSettingsOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const navigate = useNavigate();
 
@@ -88,10 +94,15 @@ const Recipes = () => {
             </div>
             <h1 className="text-2xl font-bold">My Recipes</h1>
           </div>
-          <Button variant="outline" onClick={handleSignOut}>
-            <LogOut className="w-4 h-4 mr-2" />
-            Sign Out
-          </Button>
+          <div className="flex gap-2">
+            <Button variant="outline" size="icon" onClick={() => setThemeSettingsOpen(true)}>
+              <Settings className="w-4 h-4" />
+            </Button>
+            <Button variant="outline" onClick={handleSignOut}>
+              <LogOut className="w-4 h-4 mr-2" />
+              Sign Out
+            </Button>
+          </div>
         </div>
       </header>
 
@@ -138,6 +149,23 @@ const Recipes = () => {
         onOpenChange={setDialogOpen}
         recipe={selectedRecipe}
         onSave={handleSave}
+        onShare={(id, name) => {
+          setShareRecipeId(id);
+          setShareRecipeName(name);
+          setShareDialogOpen(true);
+        }}
+      />
+
+      <ShareDialog
+        open={shareDialogOpen}
+        onOpenChange={setShareDialogOpen}
+        recipeId={shareRecipeId}
+        recipeName={shareRecipeName}
+      />
+
+      <ThemeSettings
+        open={themeSettingsOpen}
+        onOpenChange={setThemeSettingsOpen}
       />
     </div>
   );
