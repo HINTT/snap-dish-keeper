@@ -21,7 +21,9 @@ export type Database = {
           image_url: string | null
           ingredients: string | null
           instructions: string | null
+          is_public: boolean
           name: string
+          share_token: string | null
           updated_at: string
           user_id: string
         }
@@ -31,7 +33,9 @@ export type Database = {
           image_url?: string | null
           ingredients?: string | null
           instructions?: string | null
+          is_public?: boolean
           name: string
+          share_token?: string | null
           updated_at?: string
           user_id: string
         }
@@ -41,7 +45,9 @@ export type Database = {
           image_url?: string | null
           ingredients?: string | null
           instructions?: string | null
+          is_public?: boolean
           name?: string
+          share_token?: string | null
           updated_at?: string
           user_id?: string
         }
@@ -52,7 +58,10 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      generate_share_token: {
+        Args: Record<PropertyKey, never>
+        Returns: string
+      }
     }
     Enums: {
       [_ in never]: never
