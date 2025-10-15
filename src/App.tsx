@@ -25,6 +25,7 @@ const App = () => (
           <Route path="/" element={<Landing />} />
           <Route path="/auth" element={<AuthForm />} />
           <Route path="/recipes" element={<Recipes />} />
+          {/* 👇 Shared recipe route */}
           <Route path="/shared/:token" element={<SharedRecipe />} />
           {/* fallback route */}
           <Route path="*" element={<Navigate to="/" replace />} />
