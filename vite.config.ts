@@ -4,9 +4,10 @@ import path from "path";
 import { componentTagger } from "lovable-tagger";
 
 export default defineConfig(({ mode }) => ({
-  // 👇 add base so GH Pages serves assets from /snap-dish-keeper/
   base: mode === "production" ? "/snap-dish-keeper/" : "/",
-
+  build: {
+    sourcemap: true, // ✅ add this line
+  },
   server: {
     host: "::",
     port: 8080,
