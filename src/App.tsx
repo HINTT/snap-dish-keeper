@@ -2,8 +2,9 @@ import { Toaster } from "@/components/ui/toaster";
 import { Toaster as Sonner } from "@/components/ui/sonner";
 import { TooltipProvider } from "@/components/ui/tooltip";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { ThemeProvider } from "@/contexts/ThemeContext";
+import { Routes, Route, Navigate } from "react-router-dom";
+
 import Landing from "./pages/Landing";
 import { AuthForm } from "./components/auth/AuthForm";
 import Recipes from "./pages/Recipes";
@@ -18,16 +19,16 @@ const App = () => (
       <TooltipProvider>
         <Toaster />
         <Sonner />
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<Landing />} />
-            <Route path="/auth" element={<AuthForm />} />
-            <Route path="/recipes" element={<Recipes />} />
-            <Route path="/shared/:token" element={<SharedRecipe />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
-            <Route path="*" element={<NotFound />} />
-          </Routes>
-        </BrowserRouter>
+
+        {/* Router handled by HashRouter in main.tsx */}
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/auth" element={<AuthForm />} />
+          <Route path="/recipes" element={<Recipes />} />
+          <Route path="/shared/:token" element={<SharedRecipe />} />
+          {/* fallback route */}
+          <Route path="*" element={<Navigate to="/" replace />} />
+        </Routes>
       </TooltipProvider>
     </ThemeProvider>
   </QueryClientProvider>
